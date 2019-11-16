@@ -1,4 +1,10 @@
-let playerScore = 0;
+let playerScore = -1;
+let addPickaxe = 0;
+let addShovel = 0;
+let addTeammate = 0;
+let addRover = 0;
+
+//DATA
 let scoreElem = document.querySelector("#cheeseCount");
 let pickaxeClickElem = document.querySelector("#pickaxeAvailable");
 let shovelClickElem = document.querySelector("#shovelAvailable");
@@ -12,12 +18,12 @@ let roverPrice = document.querySelector("#buyRover");
 
 let clickUpgrades = {
   pickaxe: {
-    price: 5,
+    price: 10,
     quantity: 0,
     multiplier: 1
   },
   shovel: {
-    price: 10,
+    price: 20,
     quantity: 0,
     multiplier: 2
   }
@@ -25,25 +31,19 @@ let clickUpgrades = {
 
 let automaticUpgrades = {
   teammate: {
-    price: 10,
+    price: 50,
     quantiy: 0,
     multiplier: 4
   },
   rover: {
-    price: 10,
+    price: 100,
     quantity: 0,
-    multiplier: 8
+    multiplier: 10
   }
 };
 
 function mine() {
-  if (clickUpgrades.pickaxe.quantity > 0) {
-    playerScore += clickUpgrades.pickaxe.multiplier;
-  }
-  if (clickUpgrades.shovel.quantity > 0) {
-    playerScore += clickUpgrades.shovel.multiplier;
-  }
-  playerScore++;
+  playerScore += 1 + addPickaxe + addShovel;
   update();
 }
 
@@ -51,11 +51,12 @@ function buyPickaxe() {
   let pickaxe = clickUpgrades.pickaxe;
   if (playerScore >= pickaxe.price) {
     playerScore -= pickaxe.price;
-    update();
     pickaxe.quantity++;
     pickaxeClickElem.textContent = pickaxe.quantity.toString();
-    pickaxe.price = Math.ceil((pickaxe.price + 5) * 1.1);
+    addPickaxe += pickaxe.multiplier;
+    pickaxe.price *= 2;
     pickaxePrice.textContent = pickaxe.price.toString();
+    update();
   }
 }
 
@@ -63,11 +64,12 @@ function buyShovel() {
   let shovel = clickUpgrades.shovel;
   if (playerScore >= shovel.price) {
     playerScore -= shovel.price;
-    update();
     shovel.quantity++;
     shovelClickElem.textContent = shovel.quantity.toString();
-    shovel.price = Math.ceil((shovel.price + 10) * 1.1);
+    addShovel += shovel.multiplier;
+    shovel.price *= 3;
     shovelPrice.textContent = shovel.price.toString();
+    update();
   }
 }
 
@@ -75,11 +77,13 @@ function buyTeammate() {
   let teammate = automaticUpgrades.teammate;
   if (playerScore >= teammate.price) {
     playerScore -= teammate.price;
-    update();
     teammate.quantiy++;
+    update();
     teammateClickElem.textContent = teammate.quantiy.toString();
-    teammate.price = Math.ceil((teammate.price + 10) * 1.2);
+    // addTeammate += teammate.quantiy;
+    teammate.price *= 4;
     teammatePrice.textContent = teammate.price.toString();
+    autoClicker();
   }
 }
 
@@ -90,8 +94,9 @@ function buyRover() {
     update();
     rover.quantity++;
     roverClickElem.textContent = rover.quantity.toString();
-    rover.price = Math.ceil((rover.price + 20) * 1.2);
+    rover.price *= 20;
     roverPrice.textContent = rover.price.toString();
+    autoClicker();
   }
 }
 
@@ -100,22 +105,12 @@ function update() {
   document.title = playerScore + " Pieces of Cheese";
 }
 
-function autoClickTimer() {
-  let autoClicker = automaticUpgrades;
-  playerScore += automaticUpgrades.teammate.quantiy;
+function autoClicker() {
+  update();
+  playerScore +=
+    automaticUpgrades.teammate.multiplier * automaticUpgrades.teammate.quantiy +
+    automaticUpgrades.rover.multiplier * automaticUpgrades.rover.quantity;
 }
+setInterval(autoClicker, 5000);
 
-// function save() {
-//   localStorage.setItem("cheesecount", player.score.toString());
-// }
-
-// function load() {
-//   player.score = localStorage.getItem("cheesecount")
-//   player.score = parseInt(player.score.toString())
-//   document.
-// }
-
-// function reset() {
-//   playerScore = 0;
-
-// }
+mine();

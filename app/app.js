@@ -12,13 +12,11 @@ let roverPrice = document.querySelector("#buyRover");
 
 let clickUpgrades = {
   pickaxe: {
-    name: "Pickaxe",
     price: 5,
     quantity: 0,
     multiplier: 1
   },
   shovel: {
-    name: "Shovel",
     price: 10,
     quantity: 0,
     multiplier: 2
@@ -27,16 +25,14 @@ let clickUpgrades = {
 
 let automaticUpgrades = {
   teammate: {
-    name: "Teammate",
     price: 10,
     quantiy: 0,
-    multiplier: 2
+    multiplier: 4
   },
   rover: {
-    name: "Rover",
-    price: 30,
+    price: 10,
     quantity: 0,
-    multiplier: 4
+    multiplier: 8
   }
 };
 
@@ -48,14 +44,14 @@ function mine() {
     playerScore += clickUpgrades.shovel.multiplier;
   }
   playerScore++;
-  Update();
+  update();
 }
 
 function buyPickaxe() {
   let pickaxe = clickUpgrades.pickaxe;
   if (playerScore >= pickaxe.price) {
     playerScore -= pickaxe.price;
-    Update();
+    update();
     pickaxe.quantity++;
     pickaxeClickElem.textContent = pickaxe.quantity.toString();
     pickaxe.price = Math.ceil((pickaxe.price + 5) * 1.1);
@@ -67,7 +63,7 @@ function buyShovel() {
   let shovel = clickUpgrades.shovel;
   if (playerScore >= shovel.price) {
     playerScore -= shovel.price;
-    Update();
+    update();
     shovel.quantity++;
     shovelClickElem.textContent = shovel.quantity.toString();
     shovel.price = Math.ceil((shovel.price + 10) * 1.1);
@@ -79,10 +75,9 @@ function buyTeammate() {
   let teammate = automaticUpgrades.teammate;
   if (playerScore >= teammate.price) {
     playerScore -= teammate.price;
-    Update();
+    update();
     teammate.quantiy++;
     teammateClickElem.textContent = teammate.quantiy.toString();
-    AutoClicker();
     teammate.price = Math.ceil((teammate.price + 10) * 1.2);
     teammatePrice.textContent = teammate.price.toString();
   }
@@ -92,34 +87,22 @@ function buyRover() {
   let rover = automaticUpgrades.rover;
   if (playerScore >= rover.price) {
     playerScore -= rover.price;
-    Update();
+    update();
     rover.quantity++;
     roverClickElem.textContent = rover.quantity.toString();
-    AutoClicker();
     rover.price = Math.ceil((rover.price + 20) * 1.2);
     roverPrice.textContent = rover.price.toString();
   }
 }
 
-function Update() {
+function update() {
   scoreElem.textContent = playerScore.toString();
   document.title = playerScore + " Pieces of Cheese";
 }
 
-function AutoClicker() {
-  for (const ac in automaticUpgrades) {
-    if (automaticUpgrades.hasOwnProperty(ac)) {
-      const autoClicker = automaticUpgrades[ac];
-      playerScore += autoClicker.quantity * autoClicker.multiplier;
-
-      Update();
-    }
-  }
-}
-
-function startAutoClicker() {
-  let interval;
-  interval = setInterval(AutoClicker, 2000);
+function autoClickTimer() {
+  let autoClicker = automaticUpgrades;
+  playerScore += automaticUpgrades.teammate.quantiy;
 }
 
 // function save() {

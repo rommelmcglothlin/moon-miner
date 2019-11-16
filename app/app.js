@@ -82,7 +82,6 @@ function buyTeammate() {
     teammate.quantiy++;
     update();
     teammateClickElem.textContent = teammate.quantiy.toString();
-    // addTeammate += teammate.quantiy;
     teammate.price *= 4;
     teammatePrice.textContent = teammate.price.toString();
     autoClicker();
@@ -93,8 +92,8 @@ function buyRover() {
   let rover = automaticUpgrades.rover;
   if (playerScore >= rover.price) {
     playerScore -= rover.price;
-    update();
     rover.quantity++;
+    update();
     roverClickElem.textContent = rover.quantity.toString();
     rover.price *= 20;
     roverPrice.textContent = rover.price.toString();

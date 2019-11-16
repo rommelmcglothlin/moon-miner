@@ -1,8 +1,6 @@
 let playerScore = -1;
 let addPickaxe = 0;
 let addShovel = 0;
-let addTeammate = 0;
-let addRover = 0;
 
 //DATA
 let scoreElem = document.querySelector("#cheeseCount");
@@ -14,7 +12,11 @@ let pickaxePrice = document.querySelector("#buyPickaxe");
 let shovelPrice = document.querySelector("#buyShovel");
 let teammatePrice = document.querySelector("#buyTeammate");
 let roverPrice = document.querySelector("#buyRover");
-// let amountPerSecond = document.querySelector("#amountPerSecond");
+// let amountPerSecond = document.querySelector("#amountPerSecond"); may add it later
+
+//function save() {}
+//function load() {}
+//function reset() {}
 
 let clickUpgrades = {
   pickaxe: {
@@ -38,7 +40,7 @@ let automaticUpgrades = {
   rover: {
     price: 100,
     quantity: 0,
-    multiplier: 10
+    multiplier: 8
   }
 };
 
